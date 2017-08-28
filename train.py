@@ -12,7 +12,7 @@ import pandas as pd
 import random
 from random import randrange
 import more_itertools as mit
-
+import copy
 from nltk.tokenize import word_tokenize
 
 
@@ -41,32 +41,42 @@ detokenized_text = [detokenizer.detokenize(p, return_str=True) for p in alice_se
 tokenized_text = [word for word in alice_sentences if len(word) == 5]
 
 
-print(tokenized_text)
-print(detokenized_text[0])
-
 #scramble detokenizer
 random_index = randrange(0, len(tokenized_text))
-#scrambled_text = random.choice(detokenized_text.replace(random_index))
-#print (scrambled_text)
-
-#example = [detokenized_text.replace(random_index) for x in detokenized_text]
-#print (scrambled_text)
-
-
-
-
-
 
 #scrambled text
-lst = scrambled_text = tokenized_text
-lst = ([x[randrange(0, sentence_length)] for x in tokenized_text])
+lst = tokenized_text
+scrambled_text = copy.deepcopy(tokenized_text)
+
+lst = ([x[randrange(0, sentence_length)] for x in list(tokenized_text)])
 word_randomizer = random.choice(lst)
 random_number = randrange(0, sentence_length)
 indices_to_replace = [i for i,x in enumerate(scrambled_text)]
-print(indices_to_replace)
 for i in indices_to_replace:
-    scrambled_text[i][randrange(0, sentence_length)] = random.choice(lst)
+    scrambled_text[i][randrange(0, sentence_length)] = word_randomizer
+    print(scrambled_text[i].index(word_randomizer))
 
+
+#TODO
+for i, line in enumerate(scrambled_text):
+    for j, value in enumerate(line):
+        if (scrambled_text[i][j] not in tokenized_text[i][j]):
+            new_list = scrambled_text[i][j]
+            #print(new_list)
+
+#print(new_list)
+
+
+"""
+for i in indices_to_replace:
+    for x in enumerate(scrambled_text[i]):
+        if (scrambled_text[x] not in tokenized_text[x]):
+            result = x
+        print(result)
+"""
+
+print(tokenized_text)
+print(scrambled_text)
 print(scrambled_text)
 
 
